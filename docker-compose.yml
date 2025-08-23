@@ -10,11 +10,31 @@ services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus
+    depends_on:
+      - backend
     restart: unless-stopped
     ports:
       - 9090:9090
     volumes:
       - prometheus-data:/prometheus
+  backend:
+    build: ./server
+    container_name: ip-backend
+    ports:
+      - "3101:3000"
+    volumes:
+      - backend-data:/app/data
+    restart: unless-stopped
+
+  frontend:
+    build: ./client
+    container_name: ip-frontend
+    ports:
+      - "8101:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
 volumes:
   grafana-storage: {}
   prometheus-data: {}
+  backend-data: {}

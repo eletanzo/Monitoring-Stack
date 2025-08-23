@@ -8,4 +8,4 @@ scrape_configs:
 
   - job_name: "target_manager"
     http_sd_configs:
-      - url: "http://backend:3101/api/targets"
+      - url: "http://docker.brokeserver.live:3101/api/targets"

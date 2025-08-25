@@ -26,6 +26,7 @@ app.get("/api/ips", (req, res) => {
 
 // Add new IP
 app.post("/api/ips", (req, res) => {
+  console.log("POST /api/ips:" + req.body);
   const { ip } = req.body;
   if (!ip) return res.status(400).json({ error: "IP is required" });
 

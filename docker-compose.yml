@@ -11,7 +11,7 @@ services:
     restart: unless-stopped
     networks:
       default:
-        ipv4_address: 172.24.0.1
+        ipv4_address: 172.24.0.10
     ports:
       - "3000:3000"
     volumes:
@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
     networks:
       default:
-        ipv4_address: 172.24.0.2
+        ipv4_address: 172.24.0.11
     ports:
       - 9090:9090
     volumes:
@@ -38,7 +38,7 @@ services:
     container_name: ptm-backend
     networks:
       default:
-        ipv4_address: 172.24.0.3
+        ipv4_address: 172.24.0.12
     ports:
       - "3101:3000"
     volumes:
@@ -50,7 +50,7 @@ services:
     container_name: ptm-frontend
     networks:
       default:
-        ipv4_address: 172.24.0.4
+        ipv4_address: 172.24.0.13
     ports:
       - "8101:80"
     depends_on:

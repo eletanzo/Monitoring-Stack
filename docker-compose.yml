@@ -41,8 +41,6 @@ services:
         aliases:
           - ptm-server
         ipv4_address: 172.24.0.12
-    ports:
-      - "${PTM_API_PORT:-3030}:80"
     volumes:
       - backend-data:/app/data
     restart: unless-stopped
@@ -55,8 +53,6 @@ services:
         aliases:
           - ptm-client
         ipv4_address: 172.24.0.13
-    ports:
-      - "${PTM_CLIENT_PORT:-8080}:80"
     depends_on:
       - backend
     restart: unless-stopped
@@ -73,7 +69,7 @@ services:
           - ptm-proxy
         ipv4_address: 172.24.0.14
     ports:
-      - "${NGINX_PORT:-4040}:80"
+      - "${PROMETHEUS_TARGET_MANAGER_PORT:-4040}:80"
     volumes:
       - ./configs/nginx-default.conf:/etc/nginx/conf.d/default.conf
 volumes:

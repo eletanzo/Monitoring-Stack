@@ -6,6 +6,6 @@ scrape_configs:
     static_configs:
       - targets: ["localhost:9090"]
 
-  - job_name: "target_manager"
+  - job_name: "prometheus_target_manager"
     http_sd_configs:
-      - url: "http://docker.brokeserver.live:3101/api/targets"
+      - url: "http://172.24.0.12:3000/api/targets"

@@ -33,6 +33,7 @@ services:
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--web.enable-lifecycle"
+      - "--storage.tsdb.retention.time=${PROMETHEUS_RETENTION:-15d}"
   backend:
     build: ./server
     container_name: ptm-backend

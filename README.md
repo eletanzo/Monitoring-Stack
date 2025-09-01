@@ -21,7 +21,7 @@ This stack uses the following environment variables for configuration:
   - Use: Specifies the retention time for data collected by Prometheus via the --storage.tsdb.retention.time flag. Defaults to 15 days. https://prometheus.io/docs/prometheus/latest/storage/#operational-aspects
 - PROMETHEUS_TARGET_MANAGER_PORT
   - Default: 4040
-  - Use: Specifies the port exposed for the Prometheus Target Manager frontend.
+  - Use: Specifies the port exposed for the Prometheus Target Manager webapp.
 - GRAFANA_PORT
   - Default: 3000
   - Use: Specifies the port exposed for the Grafana interface.

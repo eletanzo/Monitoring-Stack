@@ -96,7 +96,7 @@ const snackbar = ref({
 });
 
 // API URL
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = '/api';
 
 const fetchIps = async () => {
   const res = await axios.get(`${API_URL}/ips`);

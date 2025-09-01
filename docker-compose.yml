@@ -1,8 +1,17 @@
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.24.0.0/24
+
 services:
   grafana:
     image: grafana/grafana-enterprise
     container_name: grafana
     restart: unless-stopped
+    networks:
+      default:
+        ipv4_address: 172.24.0.1
     ports:
       - "3000:3000"
     volumes:
@@ -13,6 +22,9 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+    networks:
+      default:
+        ipv4_address: 172.24.0.2
     ports:
       - 9090:9090
     volumes:
@@ -24,6 +36,9 @@ services:
   backend:
     build: ./server
     container_name: ptm-backend
+    networks:
+      default:
+        ipv4_address: 172.24.0.3
     ports:
       - "3101:3000"
     volumes:
@@ -33,6 +48,9 @@ services:
   frontend:
     build: ./client
     container_name: ptm-frontend
+    networks:
+      default:
+        ipv4_address: 172.24.0.4
     ports:
       - "8101:80"
     depends_on:

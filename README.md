@@ -72,3 +72,41 @@ This stack uses the following environment variables for configuration:
   - Deletes an IP by its associated unique ID
   - Example call for the example target "target.brokeserver.local:9100" above:
     - /api/ips/3
+
+# Scripts
+
+Additionally provided in this repo are some supporting scripts to help automate deployment of monitoring agents and endpoints in your environment. These are found in the /scripts directory. Their use is explained below.
+
+## Deploying Node Exporter with Ansible
+
+To monitor Linux hosts with Prometheus, use the provided Ansible playbook `scripts/deploy_node_exporter.yml`. This script automates the installation of the Prometheus Node Exporter on all hosts in your Ansible inventory and registers them with the Prometheus Target Manager.
+
+### Usage
+
+1. **Configure your Ansible inventory** with the target Linux hosts.
+2. **Run the playbook** from the project root:
+   ```sh
+   ansible-playbook scripts/deploy_node_exporter.yml -i <your_inventory_file> -e "prometheus_target_manager_api=http://monitoring.domain.local"
+   ```
+   - Note: You need to specify the "prometheus_target_manager_api" variable to point wherever the monitoring stack is hosted from.
+3. The playbook will:
+   - Install Node Exporter as a system service.
+   - Register each host with the Prometheus Target Manager API so Prometheus can begin scraping metrics.
+
+### Requirements
+
+- SSH access and sudo privileges on target hosts.
+- Ansible installed on your control machine.
+- The Prometheus Target Manager service running and accessible at `172.24.0.12:3030`.
+
+### Customization
+
+You can override variables such as the Prometheus Target Manager address or port by editing the playbook or passing extra vars:
+
+```sh
+ansible-playbook scripts/deploy_node_exporter.yml -i <your_inventory_file> -e "prometheus_target_manager_api=http://monitoring.domain.local prometheus_target_manager_api_port:3030"
+```
+
+You could also configure a variables file to pass these values to the playbook.
+
+After deployment, each host will appear in the Prometheus Target Manager and be monitored

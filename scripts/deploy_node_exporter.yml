@@ -1,0 +1,75 @@
+# Deploys node_exporter to all linuxhosts and adds them to Prometheus Target Manager for monitoring
+
+---
+- name: Install Node exporter and add to Prometheus for monitoring
+  hosts: all
+  become: yes
+  become_method: sudo
+  vars:
+    prometheus_target_manager_api_port: 3030
+    prometheus_target_manager_api: "http://172.24.0.12"
+    node_exporter_version: 1.9.1
+    node_exporter_os: linux
+    node_exporter_arch: amd64
+
+  tasks:
+    - name: Create daemon user 'node_exporter' and group
+      ansible.builtin.user:
+        name: node_exporter
+        comment: "Service user for node_exporter.service"
+        system: true
+        shell: /bin/false
+        create_home: false
+        state: present
+
+    - name: Create directory for service binaries
+      ansible.builtin.file:
+        path: /opt/node_exporter/bin
+        state: directory
+        recurse: yes
+        mode: "0755"
+        owner: node_exporter
+        group: node_exporter
+
+    - name: Download and unarchive node_exporter.tar.gz
+      ansible.builtin.unarchive:
+        src: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.{{ node_exporter_os }}-{{ node_exporter_arch }}.tar.gz"
+        dest: /tmp
+        remote_src: yes
+
+    - name: Move node_exporter binary to service files directory
+      ansible.builtin.command: "mv /tmp/node_exporter-{{ node_exporter_version }}.{{ node_exporter_os }}-{{ node_exporter_arch }}/node_exporter /opt/node_exporter/bin/node_exporter"
+
+    - name: Recursively chown service directory and files to daemon user
+      ansible.builtin.file:
+        path: /opt/node_exporter
+        state: directory
+        recurse: yes
+        owner: node_exporter
+        group: node_exporter
+
+    - name: Deploy node_exporter service file to host
+      ansible.builtin.template:
+        src: ../templates/node_exporter_service.conf
+        dest: /etc/systemd/system/node_exporter.service
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Start the service and enable
+      ansible.builtin.systemd_service:
+        name: node_exporter
+        daemon_reload: yes
+        state: started
+        enabled: yes
+
+    - name: Add host to Prometheus Target Manager
+      ansible.builtin.uri:
+        url: "{{ prometheus_target_manager_api }}:{{ prometheus_target_manager_api_port }}/api/ips"
+        method: POST
+        body:
+          ip: "{{ inventory_hostname }}:9100"
+        body_format: json
+        status_code: 200
+      delegate_to: localhost
+      become: false

@@ -29,6 +29,7 @@ services:
     volumes:
       - prometheus-data:/prometheus
       - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./configs/services.yml:/opt/prometheus/targets/services.yml
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--web.enable-lifecycle"

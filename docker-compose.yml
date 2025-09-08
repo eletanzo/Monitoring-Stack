@@ -33,6 +33,21 @@ services:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--web.enable-lifecycle"
       - "--storage.tsdb.retention.time=${PROMETHEUS_RETENTION:-15d}"
+
+  prometheus-blackbox:
+    image: prom/blackbox-exporter
+    container_name: prometheus-blackbox
+    restart: unless-stopped
+    networks:
+      default:
+        ipv4_address: 172.24.0.15
+    ports:
+      - ${BLACKBOX_EXPORTER_PORT:-9115}:9115
+    volumes:
+      - ./configs/blackbox.yml:/etc/blackbox_exporter/config.yml
+    command:
+      - "--config.file=/etc/blackbox_exporter/config.yml"
+
   backend:
     build: ./server
     container_name: ptm-backend
@@ -72,6 +87,7 @@ services:
       - "${PROMETHEUS_TARGET_MANAGER_PORT:-4040}:80"
     volumes:
       - ./configs/nginx-default.conf:/etc/nginx/conf.d/default.conf
+
 volumes:
   grafana-storage: {}
   prometheus-data: {}

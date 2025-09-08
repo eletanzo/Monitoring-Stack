@@ -2,15 +2,15 @@ global:
   scrape_interval: 1m
 
 scrape_configs:
-  - job_name: "prometheus"
+  - job_name: "Prometheus Instance"
     static_configs:
       - targets: ["localhost:9090"]
 
-  - job_name: "prometheus_target_manager"
+  - job_name: "Node Exporter"
     http_sd_configs:
       - url: "http://172.24.0.14:80/api/targets"
 
-  - job_name: "blackbox"
+  - job_name: "Blackbox"
     metrics_path: /probe
     params:
       module: [tcp_connect]

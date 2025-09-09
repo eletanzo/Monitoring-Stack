@@ -1,5 +1,18 @@
 - targets:
     - amp.brokeserver.live:25565
+    - brokeserver-minecraft.brokeserver.live:25565
   labels:
-    service: minecraft
+    service_name: BrokeMC SMP
     group: production
+
+- targets:
+    - plex.brokeserver.live:32400
+  labels:
+    service_name: Plex
+    group: production
+
+- targets:
+    - test.brokeserver.live:22
+  labels:
+    service_name: Test
+    group: test

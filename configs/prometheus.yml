@@ -10,7 +10,12 @@ scrape_configs:
     http_sd_configs:
       - url: "http://172.24.0.14:80/api/targets"
 
-  - job_name: "Blackbox"
+  - job_name: "TrueNAS SAN"
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["172.24.0.16:9109"]
+
+  - job_name: "Services"
     metrics_path: /probe
     params:
       module: [tcp_connect]

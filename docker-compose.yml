@@ -29,7 +29,7 @@ services:
     volumes:
       - prometheus-data:/prometheus
       - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./configs/services.yml:/opt/prometheus/targets/services.yml
+      - ./configs/targets:/opt/prometheus/targets
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--web.enable-lifecycle"
@@ -48,6 +48,20 @@ services:
       - ./configs/blackbox.yml:/etc/blackbox_exporter/config.yml
     command:
       - "--config.file=/etc/blackbox_exporter/config.yml"
+
+  prometheus-graphite:
+    image: prom/graphite-exporter
+    container_name: prometheus-graphite
+    restart: unless-stopped
+    networks:
+      default:
+        ipv4_address: 172.24.0.16
+    ports:
+      - ${GRAPHITE_EXPORTER_PORT:-9109}:9109
+    volumes:
+      - ./configs/graphite.yml:/etc/graphite_exporter/config.conf
+    command:
+      - "--graphite.mapping=/etc/graphite_exporter/config.conf"
 
   backend:
     build: ./server

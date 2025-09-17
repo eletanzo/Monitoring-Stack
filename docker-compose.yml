@@ -58,6 +58,7 @@ services:
         ipv4_address: 172.24.0.16
     ports:
       - ${GRAPHITE_EXPORTER_INGRESS_PORT:-9109}:9109
+      - ${GRAPHITE_EXPORTER_INGRESS_PORT:-9109}:9109/udp
       - ${GRAPHITE_EXPORTER_EGRESS_PORT:-9108}:9108
     volumes:
       - ./configs/graphite.yml:/etc/graphite_exporter/config.conf

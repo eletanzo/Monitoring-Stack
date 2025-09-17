@@ -13,7 +13,7 @@ scrape_configs:
   - job_name: "TrueNAS SAN"
     metrics_path: /metrics
     static_configs:
-      - targets: ["172.24.0.16:9109"]
+      - targets: ["172.24.0.16:9108"]
 
   - job_name: "Services"
     metrics_path: /probe

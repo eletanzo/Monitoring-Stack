@@ -61,7 +61,7 @@ services:
     volumes:
       - ./configs/graphite.yml:/etc/graphite_exporter/config.conf
     command:
-      - "--graphite.mapping=/etc/graphite_exporter/config.conf"
+      - "--graphite.mapping-config=/etc/graphite_exporter/config.conf"
 
   backend:
     build: ./server

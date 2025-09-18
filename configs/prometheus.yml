@@ -14,11 +14,6 @@ scrape_configs:
     metrics_path: /metrics
     static_configs:
       - targets: ["172.24.0.16:9108"]
-    relabel_configs:
-      - source_labels: [exported_job]
-        target_label: job
-      - source_labels: [exported_instance]
-        target_label: instance
 
   - job_name: "Services"
     metrics_path: /probe

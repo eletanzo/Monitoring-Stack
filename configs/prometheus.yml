@@ -17,7 +17,7 @@ scrape_configs:
     relabel_configs:
       - source_labels: [exported_job]
         target_label: job
-      - source_label: [exported_instance]
+      - source_labels: [exported_instance]
         target_label: instance
 
   - job_name: "Services"

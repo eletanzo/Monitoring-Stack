@@ -10,10 +10,15 @@ scrape_configs:
     http_sd_configs:
       - url: "http://172.24.0.14:80/api/targets"
 
-  - job_name: "TrueNAS SAN"
+  - job_name: "Graphite Scraper"
     metrics_path: /metrics
     static_configs:
       - targets: ["172.24.0.16:9108"]
+    relabel_configs:
+      - source_labels: [exported_job]
+        target_label: job
+      - source_label: [exported_instance]
+        target_label: instance
 
   - job_name: "Services"
     metrics_path: /probe

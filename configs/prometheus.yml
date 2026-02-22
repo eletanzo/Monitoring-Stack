@@ -15,6 +15,11 @@ scrape_configs:
     static_configs:
       - targets: ["172.24.0.16:9108"]
 
+  - job_name: "SMART Exporter"
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["10.9.11.10:9633"]
+
   - job_name: "Services"
     metrics_path: /probe
     params:

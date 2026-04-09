@@ -10,7 +10,7 @@ scrape_configs:
     http_sd_configs:
       - url: "http://172.24.0.14:80/api/targets"
 
-  - job_name: "Graphite Scraper"
+  - job_name: "truenas"
     metrics_path: /metrics
     static_configs:
       - targets: ["172.24.0.16:9108"]

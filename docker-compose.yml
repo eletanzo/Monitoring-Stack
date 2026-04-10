@@ -60,6 +60,9 @@ services:
       - ${PVE_EXPORTER_PORT:-9221}:9221
     volumes:
       - ./configs/pve.yml:/etc/prometheus/pve.yml
+    environment:
+      - PVE_TOKEN_NAME=${PVE_TOKEN_NAME}
+      - PVE_TOKEN_VALUE=${PVE_TOKEN_VALUE}
 
   prometheus-graphite:
     image: prom/graphite-exporter

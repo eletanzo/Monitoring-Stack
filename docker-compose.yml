@@ -61,6 +61,8 @@ services:
     volumes:
       - ./configs/pve.yml:/etc/prometheus/pve.yml
     environment:
+      - PVE_USER=${PVE_USER}
+      - PVE_VERIFY_SSL=false
       - PVE_TOKEN_NAME=${PVE_TOKEN_NAME}
       - PVE_TOKEN_VALUE=${PVE_TOKEN_VALUE}
 

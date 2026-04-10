@@ -50,8 +50,12 @@ services:
       - "--config.file=/etc/blackbox_exporter/config.yml"
 
   prometheus-pve-exporter:
+    container_name: prometheus-pve-exporter
     image: prompve/prometheus-pve-exporter
     restart: unless-stopped
+    networks:
+      default:
+        ipv4_address: 172.24.0.17
     ports:
       - ${PVE_EXPORTER_PORT:-9221}:9221
     volumes:

@@ -58,6 +58,8 @@ services:
         ipv4_address: 172.24.0.17
     ports:
       - ${PVE_EXPORTER_PORT:-9221}:9221
+    volumes:
+      - ./configs/pve.yml:/etc/prometheus/pve.yml
 
   prometheus-graphite:
     image: prom/graphite-exporter
